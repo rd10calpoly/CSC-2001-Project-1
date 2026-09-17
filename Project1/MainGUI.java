@@ -107,9 +107,10 @@ public class MainGUI extends JFrame {
                - addLast, or
                - insertAfter
             */
-            // Session s1 = new Session();
-            
-            
+            Session s1 = new Session(id, titleField.getText(), mentorField.getText(),
+                    departmentField.getText(), dateField.getText(), timeField.getText(),
+                    locationField.getText(), max);
+            list.addLast(s1);
             outputArea.setText("Session Added Successfully\n");
             // Clear the input fields
             clearFields();
@@ -124,6 +125,7 @@ public class MainGUI extends JFrame {
         /* TODO: Print the sessions information in the
                   outputArea
         */
+
         outputArea.setText("");
 
     }
