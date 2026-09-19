@@ -1,10 +1,12 @@
 public class LinkedList {
     private Node head;
 
+    // instantiates and creates the LinkedList with its head being null.
     public LinkedList() {
         this.head = null;
     }
 
+    // adds a Node to the first item of the LinkedList and returns the updated LinkedList.
     public LinkedList addFirst(Session s) {
         if (head == null) {
             Node n = new Node(s, null);
@@ -16,6 +18,7 @@ public class LinkedList {
         return this;
     }
 
+    // adds to the last of the LinkedList and returns the updated LinkedList
     public LinkedList addLast(Session s) {
         if (head == null) {
             Node n = new Node(s, null);
@@ -32,6 +35,8 @@ public class LinkedList {
         }
     }
 
+    // adds a Node after some other Node based on the SessionID,
+    // then it will return the new LinkedList with the added Node.
     public LinkedList insertAfter(Session s) {
         if (head == null || s.getSessionID() < head.getData().getSessionID()) {
             return addFirst(s);
@@ -48,6 +53,7 @@ public class LinkedList {
         return this;
     }
 
+    // searches by SessionID in the LinkedList and
     public String searchByID(int id) {
         Node curr = head;
         while (curr.getNext() != null) {
