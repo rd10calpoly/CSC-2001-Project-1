@@ -1,6 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-import java.util.List;
+
 public class MainGUI extends JFrame {
     private JTextField idField;
     private JTextField titleField;
@@ -12,11 +12,11 @@ public class MainGUI extends JFrame {
     private JTextField maxField;
     private JTextArea outputArea;
     // TODO: Create instance variable with type linked list
-    private LinkedList list;
+    private MyLinkedList list;
 
     public MainGUI() {
         // TODO: Create a new LinkList
-        this.list = new LinkedList();
+        this.list = new MyLinkedList();
         setTitle("Employee Mentorship and Inclusion Manager");
         setSize(600, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -110,7 +110,23 @@ public class MainGUI extends JFrame {
             Session s1 = new Session(id, titleField.getText(), mentorField.getText(),
                     departmentField.getText(), dateField.getText(), timeField.getText(),
                     locationField.getText(), max);
-            list.addLast(s1);
+
+            if (list.getHead() == null) {
+                list.addFirst(s1);
+            }
+
+            Node lastNode = list.getHead();
+            while (lastNode.getNext() != null) {
+                lastNode = lastNode.getNext();
+            }
+
+            if (s1.getSessionID() < list.getHead().getData().getSessionID()) {
+                list.addFirst(s1);
+            } else if (s1.getSessionID() > lastNode.getData().getSessionID()){
+                list.addLast(s1);
+            } else {
+                list.insertAfter(s1);
+            }
             outputArea.setText("Session Added Successfully\n");
             // Clear the input fields
             clearFields();
@@ -125,8 +141,16 @@ public class MainGUI extends JFrame {
         /* TODO: Print the sessions information in the
                   outputArea
         */
-
+        if (list.getHead() == null) {
+            outputArea.setText("There are currently no sessions");
+        }
         outputArea.setText("");
+        Node curr = list.getHead();
+        String result = "";
+        while (curr.getNext() != null) {
+            result += curr.getData().toString() + "\n";
+            curr = curr.getNext();
+        }
 
     }
 
@@ -139,7 +163,26 @@ public class MainGUI extends JFrame {
         3) If both sessionID and mentor are empty,
         print Please enter a Session ID or Mentor name in outputArea
         */
-        
+        String idText = idField.getText().trim();
+        String mentor = mentorField.getText().trim();
+        if (!idText.equals("")) {
+            int id = Integer.parseInt(idText);
+            String result = list.searchByID(id);
+            if (result.equals("Session ID not found.")) {
+                outputArea.setText("Session not found.");
+            } else {
+                outputArea.setText(list.searchByID(id));
+            }
+        } else if (!mentor.equals("")) {
+            String result = list.searchByMentor(mentor);
+            if (result.equals("Mentor not found.")) {
+                outputArea.setText("No session found for mentor " + mentor);
+            } else {
+                outputArea.setText(list.searchByMentor(mentor));
+            }
+        } else {
+            outputArea.setText("Please enter a Session ID or Mentor name in outputArea");
+        }
     }
     
     // delete the session
@@ -147,6 +190,13 @@ public class MainGUI extends JFrame {
     	/* TODO: if session exits remove the session and print Session removed,
     	otherwise print Session not found in outputArea
     	*/
+        int id = Integer.parseInt(idField.getText().trim());
+        Node curr = list.getHead();
+
+        while ()
+
+
+
         
     }
 
