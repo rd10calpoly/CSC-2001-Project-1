@@ -193,11 +193,16 @@ public class MainGUI extends JFrame {
         int id = Integer.parseInt(idField.getText().trim());
         Node curr = list.getHead();
 
-        while ()
+        while (curr != null && curr.getData().getSessionID() != id) {
+            curr = curr.getNext();
+        }
 
+        if (curr == null) {
+            outputArea.setText("Session not found.");
+        } else {
+            outputArea.setText("Session removed.");
+        }
 
-
-        
     }
 
     // registerParticipants call the method in the LinkedList
@@ -206,5 +211,6 @@ public class MainGUI extends JFrame {
         if result is True: print in outputArea, "Participant registered"
         otherwise print, "Registration failed"
         */
+        
     }
 }
