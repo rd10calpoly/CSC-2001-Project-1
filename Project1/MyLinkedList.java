@@ -118,4 +118,21 @@ public class MyLinkedList {
             curr = curr.getNext();
         }
     }
+
+    // [EXTRA CREDIT METHODS]
+
+
+    // helper method for (7) Extra Credit 3: Cancel Registration.
+    // opposite of the registerParticipant. Instead of incrementing,
+    // currentParticipants will decrement by 1 and return true if successful.
+    // otherwise, return false.
+    // will return
+    public boolean cancelRegisterParticipant(Session s) {
+        if (s.getCurrentParticipants() > 0) {
+            s.setCurrentParticipants(s.getCurrentParticipants() - 1);
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

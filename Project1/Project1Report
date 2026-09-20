@@ -1,0 +1,37 @@
+(1) Name: Randy Duong
+       Section: 06
+
+(2) Responsibilities:
+- The LinkedList and Node Class
+- Incomplete/TO-DO methods in the MainGUI class (addSession, removeSession, etc)
+- Helper methods in the LinkedList class and MainGUI class for the extra credit.
+
+(3) LinkedList was suggested because Session objects/references needed to
+be removed and added. LinkedList is a dynamic linear data structure which means
+the size can shrink or enlarge at any time. If we used arrays, we would have to
+do many methods into copying the array and making a new array to enlarge or shrink.
+This would take too much time and too much repeated code for a simple add(Session) method.
+
+Another solution to this would be to use ArrayList instead. Unlike LinkedLists,
+ArrayLists have indices which can make it easier to access the first and last,
+instead of iterating through the whole list. ArrayLists also are lower memory
+than LinkedLists since you do not have to have pointer variables for the next item.
+Similar to LinkedLists, ArrayLists are also resizeable and can produce the same, if
+not a better/easier solution to write the methods.
+
+(4a & 4b) My LinkedList was similar to how I implemented it in Lab 2 (Date). I wanted
+to try and use just 1 class for LinkedList but I found that too difficult and it'd be better
+to stick to what I learned. I used 2 classes for LinkedList. One to make the LinkedList itself
+and one for the Node class to hold the data and pointer variables. The LinkedList class will
+have the head and it is the building block for the next Nodes that will be added.
+The Node class has 2 instance variables and uses data and next. The data is the Session
+ the Node is holding and the next variable is the pointer for the next data. Note
+ that next can be null to represent the tail of the LinkedList.
+
+ (4c-i) I thought I would be using helper methods for the main project but I
+ didn't really need to. Helper methods were only used for the extra credit methods
+ such as Cancel Registration.
+
+ That helper method was to do the opposite of
+ registerParticipant(Session s) and instead of increasing currentParticipants, it reduces
+ the amount of currentParticipants.

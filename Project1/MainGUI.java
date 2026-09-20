@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.text.NumberFormat;
 
 public class MainGUI extends JFrame {
     private JTextField idField;
@@ -221,6 +222,21 @@ public class MainGUI extends JFrame {
         if result is True: print in outputArea, "Participant registered"
         otherwise print, "Registration failed"
         */
+        try {
+            int id = Integer.parseInt(idField.getText().trim());
+            Node curr = list.getHead();
 
+            while (curr != null && curr.getData().getSessionID() != id) {
+                curr = curr.getNext();
+            }
+
+            if (curr != null && list.registerParticipant(curr.getData())) {
+                outputArea.setText("Participant registered.");
+            } else {
+                outputArea.setText("Registration failed.");
+            }
+        } catch (NumberFormatException e) {
+            outputArea.setText("Registration failed. Try again with a valid Session ID.");
+        }
     }
 }
