@@ -113,19 +113,18 @@ public class MainGUI extends JFrame {
 
             if (list.getHead() == null) {
                 list.addFirst(s1);
-            }
-
-            Node lastNode = list.getHead();
-            while (lastNode.getNext() != null) {
-                lastNode = lastNode.getNext();
-            }
-
-            if (s1.getSessionID() < list.getHead().getData().getSessionID()) {
-                list.addFirst(s1);
-            } else if (s1.getSessionID() > lastNode.getData().getSessionID()){
-                list.addLast(s1);
             } else {
-                list.insertAfter(s1);
+                Node lastNode = list.getHead();
+                while (lastNode.getNext() != null) {
+                    lastNode = lastNode.getNext();
+                }
+                if (s1.getSessionID() < list.getHead().getData().getSessionID()) {
+                    list.addFirst(s1);
+                } else if (s1.getSessionID() > lastNode.getData().getSessionID()){
+                    list.addLast(s1);
+                } else {
+                    list.insertAfter(s1);
+                }
             }
             outputArea.setText("Session Added Successfully\n");
             // Clear the input fields
@@ -143,15 +142,16 @@ public class MainGUI extends JFrame {
         */
         if (list.getHead() == null) {
             outputArea.setText("There are currently no sessions");
-        }
-        outputArea.setText("");
-        Node curr = list.getHead();
-        String result = "";
-        while (curr.getNext() != null) {
-            result += curr.getData().toString() + "\n";
-            curr = curr.getNext();
+            return;
         }
 
+        Node curr = list.getHead();
+        String result = "";
+        while (curr != null) {
+            result += curr.getData().toString() + "\n" + "\n";
+            curr = curr.getNext();
+        }
+        outputArea.setText(result);
     }
 
     // Search based on sessionID or mentor if the fields are not empty
@@ -163,25 +163,29 @@ public class MainGUI extends JFrame {
         3) If both sessionID and mentor are empty,
         print Please enter a Session ID or Mentor name in outputArea
         */
-        String idText = idField.getText().trim();
-        String mentor = mentorField.getText().trim();
-        if (!idText.equals("")) {
-            int id = Integer.parseInt(idText);
-            String result = list.searchByID(id);
-            if (result.equals("Session ID not found.")) {
-                outputArea.setText("Session not found.");
+        try {
+            String idText = idField.getText().trim();
+            String mentor = mentorField.getText().trim();
+            if (!idText.equals("")) {
+                int id = Integer.parseInt(idText);
+                String result = list.searchByID(id);
+                if (result.equals("Session ID not found.")) {
+                    outputArea.setText("Session not found.");
+                } else {
+                    outputArea.setText(result);
+                }
+            } else if (!mentor.equals("")) {
+                String result = list.searchByMentor(mentor);
+                if (result.equals("Mentor not found.")) {
+                    outputArea.setText("No session found for mentor " + mentor);
+                } else {
+                    outputArea.setText(result);
+                }
             } else {
-                outputArea.setText(list.searchByID(id));
+                outputArea.setText("Please enter a Session ID or Mentor name in outputArea");
             }
-        } else if (!mentor.equals("")) {
-            String result = list.searchByMentor(mentor);
-            if (result.equals("Mentor not found.")) {
-                outputArea.setText("No session found for mentor " + mentor);
-            } else {
-                outputArea.setText(list.searchByMentor(mentor));
-            }
-        } else {
-            outputArea.setText("Please enter a Session ID or Mentor name in outputArea");
+        } catch (NumberFormatException numExcept) {
+            outputArea.setText("Please enter a proper Session ID.");
         }
     }
     
@@ -190,18 +194,24 @@ public class MainGUI extends JFrame {
     	/* TODO: if session exits remove the session and print Session removed,
     	otherwise print Session not found in outputArea
     	*/
-        int id = Integer.parseInt(idField.getText().trim());
-        Node curr = list.getHead();
+        try {
+            int id = Integer.parseInt(idField.getText().trim());
+            Node curr = list.getHead();
 
-        while (curr != null && curr.getData().getSessionID() != id) {
-            curr = curr.getNext();
+            while (curr != null && curr.getData().getSessionID() != id) {
+                curr = curr.getNext();
+            }
+
+            if (curr == null) {
+                outputArea.setText("Session not found.");
+            } else {
+                list.remove(curr.getData());
+                outputArea.setText("Session removed.");
+            }
+        } catch (NumberFormatException e) {
+            outputArea.setText("Please enter a proper Session ID.");
         }
 
-        if (curr == null) {
-            outputArea.setText("Session not found.");
-        } else {
-            outputArea.setText("Session removed.");
-        }
 
     }
 
@@ -211,6 +221,6 @@ public class MainGUI extends JFrame {
         if result is True: print in outputArea, "Participant registered"
         otherwise print, "Registration failed"
         */
-        
+
     }
 }
