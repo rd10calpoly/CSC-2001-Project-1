@@ -124,9 +124,8 @@ public class MyLinkedList {
 
     // helper method for (7) Extra Credit 3: Cancel Registration.
     // opposite of the registerParticipant. Instead of incrementing,
-    // currentParticipants will decrement by 1 and return true if successful.
+    // currentParticipants will decrement by 1 and return true if successful (currentParticipants > 0).
     // otherwise, return false.
-    // will return
     public boolean cancelRegisterParticipant(Session s) {
         if (s.getCurrentParticipants() > 0) {
             s.setCurrentParticipants(s.getCurrentParticipants() - 1);
