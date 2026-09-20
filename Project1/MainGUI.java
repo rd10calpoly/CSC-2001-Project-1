@@ -254,7 +254,7 @@ public class MainGUI extends JFrame {
             Node curr = list.getHead();
 
             while (curr != null && (!curr.getData().getMentor().equals(mentor)
-            && curr.getData().getSessionID() != id)) {
+            || curr.getData().getSessionID() != id)) {
                 curr = curr.getNext();
             }
 
