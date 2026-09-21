@@ -88,6 +88,24 @@ public class Main {
         // should return false and have "Current Participants: 0" unchanged.
         System.out.println(list.cancelRegisterParticipant(s2));
         System.out.println("Current Participants: " + s2.getCurrentParticipants());
+        System.out.println();
+
+        // (2) updateCurrSession(int i, Session s)
+        Session s6 = new Session(18, "Inside", "Yours Truly", "Henopix", "7 Jul. 1943", "23:23", "1 Brass Ct.", 10);
+        Session s7 = new Session(200, "Outside", "Him", "Lestorix", "8 Aug. 1977", "20:20", "5 Tin Ave.", 1);
+        list.updateCurrSession(6, s6);
+        // should replace SessionID 6 w/ Session s6 (Session ID 18)
+        list.display();
+        System.out.println();
+        list.updateCurrSession(18, s7);
+        // should replace SessionID 18 w/ Session s7 (Session ID 200)
+        list.display();
+        System.out.println();
+        // should print "There is no ID -1 that exists to update the Session".
+        // should not touch and affect LinkedList.
+        list.updateCurrSession(-1, s6);
+        list.display();
+
     }
 }
 

@@ -29,10 +29,4 @@ The Node class has 2 instance variables and uses data and next. The data is the 
  that next can be null to represent the tail of the LinkedList.
 
  (4c-i) I thought I would be using helper methods for the main project but I
- didn't really need to. Helper methods were only used for the extra credit methods
- such as Cancel Registration.
-
-Helper Method: cancelRegistrationParticipant(Session s)
- That helper method was to do the opposite of
- registerParticipant(Session s) and instead of increasing currentParticipants, it reduces
- the amount of currentParticipants by 1.
+ didn't need and use any helper methods to help me with this project and even the extra credit methods.
