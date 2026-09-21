@@ -240,32 +240,7 @@ public class MainGUI extends JFrame {
         }
     }
 
-    // EXTRA CREDIT METHODS
-
-    // cancels a registered participant by calling cancelRegisterParticipant(Session s)
-    // in the MyLinkedList class. It uses both the mentor's name and Session ID
-    // to know which Session the participant can cancel out of.
-    // if the call to cancelRegistrationParticipant() is true, it will print "Registration
-    // canceled."  Otherwise, "Cancellation failed."
-    private void cancelRegisterParticipant() {
-        try {
-            String mentor = mentorField.getText().trim();
-            int id = Integer.parseInt(idField.getText().trim());
-            Node curr = list.getHead();
-
-            while (curr != null && (!curr.getData().getMentor().equals(mentor)
-            || curr.getData().getSessionID() != id)) {
-                curr = curr.getNext();
-            }
-
-            if (curr != null && list.cancelRegisterParticipant(curr.getData())) {
-                outputArea.setText("Registration cancelled.");
-            } else {
-                outputArea.setText("Cancellation failed.");
-            }
-
-        } catch (NumberFormatException e) {
-            outputArea.setText("Cancellation failed.");
-        }
+    public static void main(String[] args) {
+        new MainGUI();
     }
 }
