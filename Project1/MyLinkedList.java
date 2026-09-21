@@ -6,6 +6,7 @@ public class MyLinkedList {
         this.head = null;
     }
 
+    // getters (gets the head)
     public Node getHead() {
         return head;
     }
@@ -42,6 +43,10 @@ public class MyLinkedList {
     // adds a Node after some other Node based on the SessionID,
     // then it will return the new LinkedList with the added Node.
     public MyLinkedList insertAfter(Session s) {
+        if (head == null || s.getSessionID() < head.getData().getSessionID()) {
+            return addFirst(s);
+        }
+
         Node curr = head;
         while (curr.getNext() != null &&
                 curr.getNext().getData().getSessionID() < s.getSessionID()) {
