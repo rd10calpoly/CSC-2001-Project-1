@@ -36,7 +36,7 @@ public class Main {
 
         //  testing getHead()
         // expected Session ID #6
-        System.out.println(list.getHead().getData().toString() + "\n");
+        System.out.println(list.getHead().toString() + "\n");
 
         // testing search methods: searchByID(int i) and searchbyMentor(String s)
         System.out.println(list.searchByID(6));

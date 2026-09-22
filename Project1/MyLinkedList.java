@@ -1,25 +1,35 @@
 public class MyLinkedList {
-    private Node head;
+    private Session head;
+    private MyLinkedList next;
 
-    // creates the object LinkedList with its head being null.
+    // creates the object LinkedList with its head and the rest of the list being null.
     public MyLinkedList() {
         this.head = null;
+        this.next = null;
+    }
+
+    public MyLinkedList(Session s, MyLinkedList l) {
+        this.head = s;
+        this.next = l;
     }
 
     // getters / gets the head of the LinkedList
-    public Node getHead() {
+    public Session  getHead() {
         return head;
     }
+
+    // getters / gets the next pointer of the LinkedList
+    public MyLinkedList getNext() { return next; }
 
     // adds a Node to the first item of the LinkedList and returns the updated LinkedList.
     // (1) {8 -> 18 -> 1994 -> 2000 -> 7134 -> null} addFirst(Session(1, ...)) -> {1 -> 8 -> 18 -> 1994 -> 2000 -> 7134 -> null}
     public MyLinkedList addFirst(Session s) {
         if (head == null) {
-            Node n = new Node(s, null);
-            head = n;
+            head = s;
         } else {
-            Node n = new Node(s, this.head);
-            head = n;
+            MyLinkedList oldList = new MyLinkedList(head, next);
+            head = s;
+            next = oldList;
         }
         return this;
     }
@@ -28,16 +38,14 @@ public class MyLinkedList {
     // (1) {5 -> 7 -> 9 -> null} addLast(Session(13, ...)) -> {5 -> 7 -> 9 -> 13 -> null}
     public MyLinkedList addLast(Session s) {
         if (head == null) {
-            Node n = new Node(s, null);
-            head = n;
+            head = s;
             return this;
         } else {
-            Node curr = head;
-            while (curr.getNext() != null) {
-                curr = curr.getNext();
+            MyLinkedList curr = this;
+            while (curr.next != null) {
+                curr = curr.next;
             }
-            Node n = new Node(s, null);
-            curr.setNext(n);
+            curr.next = new MyLinkedList(s, null);
             return this;
         }
     }
@@ -46,18 +54,17 @@ public class MyLinkedList {
     // then it will return the new LinkedList with the added Node.
     // (1) {3 -> 5 -> null} insertAfter(new Session(4, ...)) -> {3 -> 4 -> 5 -> null}
     public MyLinkedList insertAfter(Session s) {
-        if (head == null || s.getSessionID() < head.getData().getSessionID()) {
+        if (head == null || s.getSessionID() < head.getSessionID()) {
             return addFirst(s);
         }
 
-        Node curr = head;
-        while (curr.getNext() != null &&
-                curr.getNext().getData().getSessionID() < s.getSessionID()) {
-            curr = curr.getNext();
+        MyLinkedList curr = this;
+        while (curr.next != null &&
+                curr.next.head.getSessionID() < s.getSessionID()) {
+            curr = curr.next;
         }
 
-        Node addingSession = new Node(s, curr.getNext());
-        curr.setNext(addingSession);
+        curr.next = new MyLinkedList(s, curr.next);
         return this;
     }
 
@@ -65,12 +72,12 @@ public class MyLinkedList {
     // Session's information. Otherwise, it will return "Session ID not found."
     // (1) {5 -> 7 -> 9 -> 10 -> null} searchByID(4) -> "Session ID not found."
     public String searchByID(int id) {
-        Node curr = head;
+        MyLinkedList curr = this;
         while (curr != null) {
-            if (curr.getData().getSessionID() == id) {
-                return curr.getData().toString();
+            if (curr.head.getSessionID() == id) {
+                return curr.head.toString();
             }
-            curr = curr.getNext();
+            curr = curr.next;
         }
         return "Session ID not found";
     }
@@ -81,12 +88,12 @@ public class MyLinkedList {
     // (1) {Randy -> Harold -> Sam -> Beth -> null} searchByMentor("Harold") -> (Harold's Session).toString()
     // (2) {Randy -> Harold -> Sam -> Beth -> null} searchByMentor("Brady") -> "Mentor not found."
     public String searchByMentor(String ment) {
-        Node curr = head;
+        MyLinkedList curr = this;
         while (curr != null) {
-            if (curr.getData().getMentor().equals(ment)) {
-                return curr.getData().toString();
+            if (curr.head.getMentor().equals(ment)) {
+                return curr.head.toString();
             }
-            curr = curr.getNext();
+            curr = curr.next;
         }
         return "Mentor not found.";
     }
@@ -99,17 +106,19 @@ public class MyLinkedList {
     //  -> {821 -> 1400 -> 2500 -> 3000 -> 4001 -> null}
     public MyLinkedList remove(Session s) {
         if (head == null) { return this; }
-        if (head.getData().getSessionID() == s.getSessionID()) {
-            head = head.getNext();
+
+        if (head.getSessionID() == s.getSessionID()) {
+            head = next.head;
+            next = next.next;
             return this;
         }
-        Node curr = head;
-        while (curr.getNext() != null) {
-            if (curr.getNext().getData().getSessionID() == s.getSessionID()) {
-                curr.setNext(curr.getNext().getNext());
+        MyLinkedList curr = this;
+        while (curr.next != null) {
+            if (curr.next.head.getSessionID() == s.getSessionID()) {
+                curr.next = curr.next.next;
                 return this;
             }
-            curr = curr.getNext();
+            curr = curr.next;
         }
        return this;
     }
@@ -131,10 +140,10 @@ public class MyLinkedList {
     // (1) {Session1 -> Session2 -> null} display()
     // -> print Session1.toString() + Session2.toString()
     public void display() {
-        Node curr = head;
+        MyLinkedList curr = this;
         while (curr != null) {
-            IO.println(curr.getData().toString());
-            curr = curr.getNext();
+            IO.println(curr.head.toString());
+            curr = curr.next;
         }
     }
 
@@ -164,13 +173,13 @@ public class MyLinkedList {
     // does not return anything and only updates the current LinkedList.
     // (1) {3 -> 8 -> 18 -> 39 -> 83 -> null} updateCurrSession(8, Session(17, ...)) -> {3 -> 17 -> 18 -> 39 -> 83 -> null}
     public void updateCurrSession(int idToChange, Session s) {
-        Node curr = this.head;
+        MyLinkedList curr = this;
         while (curr != null) {
-            if (idToChange == curr.getData().getSessionID()) {
-                curr.setData(s);
+            if (idToChange == curr.head.getSessionID()) {
+                curr.head = s;
                 return;
             }
-            curr = curr.getNext();
+            curr = curr.next;
         }
         System.out.println("There is no ID " + idToChange + " that exists to update the Session.");
     }

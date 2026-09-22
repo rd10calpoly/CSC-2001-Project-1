@@ -37,7 +37,6 @@ public class Session{
         this.currentParticipants = currentParticipants;
     }
 
-
     @Override
     public String toString() {
         int par = this.maxParticipants-this.currentParticipants;
