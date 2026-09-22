@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.text.NumberFormat;
 
 public class MainGUI extends JFrame {
     private JTextField idField;
@@ -112,16 +111,16 @@ public class MainGUI extends JFrame {
                     departmentField.getText(), dateField.getText(), timeField.getText(),
                     locationField.getText(), max);
 
-            if (list.getHead() == null) {
+            if (list.getData() == null) {
                 list.addFirst(s1);
             } else {
                 MyLinkedList last = list;
                 while (last.getNext() != null) {
                     last = last.getNext();
                 }
-                if (s1.getSessionID() < list.getHead().getSessionID()) {
+                if (s1.getSessionID() < list.getData().getSessionID()) {
                     list.addFirst(s1);
-                } else if (s1.getSessionID() > last.getHead().getSessionID()){
+                } else if (s1.getSessionID() > last.getData().getSessionID()){
                     list.addLast(s1);
                 } else {
                     list.insertAfter(s1);
@@ -141,7 +140,7 @@ public class MainGUI extends JFrame {
         /* TODO: Print the sessions information in the
                   outputArea
         */
-        if (list.getHead() == null) {
+        if (list.getData() == null) {
             outputArea.setText("There are currently no sessions");
             return;
         }
@@ -149,7 +148,7 @@ public class MainGUI extends JFrame {
         MyLinkedList curr = list;
         String result = "";
         while (curr != null) {
-            result += curr.getHead().toString() + "\n\n";
+            result += curr.getData().toString() + "\n\n";
             curr = curr.getNext();
         }
         outputArea.setText(result);
@@ -199,14 +198,14 @@ public class MainGUI extends JFrame {
             int id = Integer.parseInt(idField.getText().trim());
             MyLinkedList curr = list;
 
-            while (curr != null && curr.getHead().getSessionID() != id) {
+            while (curr != null && curr.getData().getSessionID() != id) {
                 curr = curr.getNext();
             }
 
             if (curr == null) {
                 outputArea.setText("Session not found.");
             } else {
-                list.remove(curr.getHead());
+                list.remove(curr.getData());
                 outputArea.setText("Session removed.");
             }
         } catch (NumberFormatException e) {
@@ -226,11 +225,11 @@ public class MainGUI extends JFrame {
             int id = Integer.parseInt(idField.getText().trim());
             MyLinkedList curr = list;
 
-            while (curr != null && curr.getHead().getSessionID() != id) {
+            while (curr != null && curr.getData().getSessionID() != id) {
                 curr = curr.getNext();
             }
 
-            if (curr != null && list.registerParticipant(curr.getHead())) {
+            if (curr != null && list.registerParticipant(curr.getData())) {
                 outputArea.setText("Participant registered.");
             } else {
                 outputArea.setText("Registration failed.");

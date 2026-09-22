@@ -1,44 +1,45 @@
 public class MyLinkedList {
-    private Session head;
+    private Session data;
     private MyLinkedList next;
 
-    // creates the object LinkedList with its head and the rest of the list being null.
+    // creates the object LinkedList with its data and the rest of the list being null.
     public MyLinkedList() {
-        this.head = null;
+        this.data = null;
         this.next = null;
     }
 
+    // creates the object LinkedList with its data and rest of the list being some Session and some MyLinkedList variable.
     public MyLinkedList(Session s, MyLinkedList l) {
-        this.head = s;
+        this.data = s;
         this.next = l;
     }
 
-    // getters / gets the head of the LinkedList
-    public Session  getHead() {
-        return head;
+    // getters / gets the data of the LinkedList
+    public Session getData() {
+        return data;
     }
 
     // getters / gets the next pointer of the LinkedList
     public MyLinkedList getNext() { return next; }
 
-    // adds a Node to the first item of the LinkedList and returns the updated LinkedList.
+    // adds a Session to the first item of the LinkedList and returns the updated LinkedList.
     // (1) {8 -> 18 -> 1994 -> 2000 -> 7134 -> null} addFirst(Session(1, ...)) -> {1 -> 8 -> 18 -> 1994 -> 2000 -> 7134 -> null}
     public MyLinkedList addFirst(Session s) {
-        if (head == null) {
-            head = s;
+        if (data == null) {
+            data = s;
         } else {
-            MyLinkedList oldList = new MyLinkedList(head, next);
-            head = s;
+            MyLinkedList oldList = new MyLinkedList(data, next);
+            data = s;
             next = oldList;
         }
         return this;
     }
 
-    // adds to the last of the LinkedList and returns the updated LinkedList
+    // adds a Session to the last of the LinkedList and returns the updated LinkedList
     // (1) {5 -> 7 -> 9 -> null} addLast(Session(13, ...)) -> {5 -> 7 -> 9 -> 13 -> null}
     public MyLinkedList addLast(Session s) {
-        if (head == null) {
-            head = s;
+        if (data == null) {
+            data = s;
             return this;
         } else {
             MyLinkedList curr = this;
@@ -50,17 +51,17 @@ public class MyLinkedList {
         }
     }
 
-    // adds a Node after some other Node based on the SessionID,
-    // then it will return the new LinkedList with the added Node.
+    // adds a Session after some other Session based on the SessionID,
+    // then it will return the new LinkedList with the added Session.
     // (1) {3 -> 5 -> null} insertAfter(new Session(4, ...)) -> {3 -> 4 -> 5 -> null}
     public MyLinkedList insertAfter(Session s) {
-        if (head == null || s.getSessionID() < head.getSessionID()) {
+        if (data == null || s.getSessionID() < data.getSessionID()) {
             return addFirst(s);
         }
 
         MyLinkedList curr = this;
         while (curr.next != null &&
-                curr.next.head.getSessionID() < s.getSessionID()) {
+                curr.next.data.getSessionID() < s.getSessionID()) {
             curr = curr.next;
         }
 
@@ -74,8 +75,8 @@ public class MyLinkedList {
     public String searchByID(int id) {
         MyLinkedList curr = this;
         while (curr != null) {
-            if (curr.head.getSessionID() == id) {
-                return curr.head.toString();
+            if (curr.data.getSessionID() == id) {
+                return curr.data.toString();
             }
             curr = curr.next;
         }
@@ -90,8 +91,8 @@ public class MyLinkedList {
     public String searchByMentor(String ment) {
         MyLinkedList curr = this;
         while (curr != null) {
-            if (curr.head.getMentor().equals(ment)) {
-                return curr.head.toString();
+            if (curr.data.getMentor().equals(ment)) {
+                return curr.data.toString();
             }
             curr = curr.next;
         }
@@ -100,21 +101,21 @@ public class MyLinkedList {
 
     // removes a given Session in a LinkedList and returns the LinkedList that has the Session removed.
     // if the given Session is not available, it will return the original LinkedList.
-    // if the head is null, it will also return the original LinkedList
+    // if the data is null, it will also return the original LinkedList
     // (1) {6 -> 8 -> 10 -> 14 -> 19 -> null} remove(Session(14, ...)) -> {6 -> 8 -> 10 -> 19 -> null}
     // (2) {821 -> 1400 -> 2500 -> 3000 -> 4001 -> null} remove(Session(1100, ...))
     //  -> {821 -> 1400 -> 2500 -> 3000 -> 4001 -> null}
     public MyLinkedList remove(Session s) {
-        if (head == null) { return this; }
+        if (data == null) { return this; }
 
-        if (head.getSessionID() == s.getSessionID()) {
-            head = next.head;
+        if (data.getSessionID() == s.getSessionID()) {
+            data = next.data;
             next = next.next;
             return this;
         }
         MyLinkedList curr = this;
         while (curr.next != null) {
-            if (curr.next.head.getSessionID() == s.getSessionID()) {
+            if (curr.next.data.getSessionID() == s.getSessionID()) {
                 curr.next = curr.next.next;
                 return this;
             }
@@ -136,13 +137,13 @@ public class MyLinkedList {
            return false;
     }
 
-    // prints out the Sessions in the LinkedList in order from head to tail.
+    // prints out the Sessions in the LinkedList in order from data to tail.
     // (1) {Session1 -> Session2 -> null} display()
     // -> print Session1.toString() + Session2.toString()
     public void display() {
         MyLinkedList curr = this;
         while (curr != null) {
-            IO.println(curr.head.toString());
+            IO.println(curr.data.toString());
             curr = curr.next;
         }
     }
@@ -175,8 +176,8 @@ public class MyLinkedList {
     public void updateCurrSession(int idToChange, Session s) {
         MyLinkedList curr = this;
         while (curr != null) {
-            if (idToChange == curr.head.getSessionID()) {
-                curr.head = s;
+            if (idToChange == curr.data.getSessionID()) {
+                curr.data = s;
                 return;
             }
             curr = curr.next;
